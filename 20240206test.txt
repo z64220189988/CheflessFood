@@ -1,0 +1,146 @@
+private void cbox商用料理配料包_排序選項_SelectedIndexChanged(object sender, EventArgs e)
+{
+    // 獲取選中的排序選項
+    var 選擇的排序方式 = cbox商用料理配方_排序選項.SelectedItem.ToString();
+    string 排序語句 = "";
+
+    switch (選擇的排序方式)
+    {
+        case "價格低到高":
+            // 執行價格低到高的排序操作
+            排序語句 = "ORDER BY price ASC";
+            break;
+        case "價格高到低":
+            // 執行價格高到低的排序操作
+            排序語句 = "ORDER BY price DESC";
+            break;
+        case "姓名筆劃多到少":
+            // 執行姓名筆劃多到少的排序操作
+            排序語句 = "ORDER BY pname DESC"; // 假設使用姓名長度進行排序
+            break;
+        case "姓名筆劃少到多":
+            // 執行姓名筆劃少到多的排序操作
+            排序語句 = "ORDER BY pname ASC";
+            break;
+    }
+
+    
+    // 重新加載資料
+    讀取cbox並顯示資料("商用料理配方", 排序語句);
+}
+
+
+void 讀取cbox並顯示資料(string ptype, string 排序語句)
+{
+    var listId = new List<int>();
+    var list商品名稱 = new List<string>();
+    var list商品價格 = new List<int>();
+    var list銷售模式 = new List<string>();
+    var imageList = new ImageList();
+    imageList.ImageSize = new Size(100, 100); // 設定圖片大小
+
+    // 清空當前ListView和ImageList中的項目和圖片
+    var currentListView = 當前listview(ptype); // 根據實際情況選擇對應的ListView
+    currentListView.Items.Clear();
+    currentListView.LargeImageList = imageList;
+    currentListView.SmallImageList = imageList;
+
+    string strSQL = $"SELECT * FROM products WHERE ptype = '{ptype}' {排序語句}";
+    string 預設圖片路徑 = Path.Combine(GlobalVar.image_dir, "預設圖片.png");
+
+    using (SqlConnection con = new SqlConnection(GlobalVar.strDBConnectionString))
+    {
+        con.Open();
+        using (SqlCommand cmd = new SqlCommand(strSQL, con))
+        {
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                int index = 0; // 用於追蹤圖片列表的索引
+                while (reader.Read())
+                {
+                    listId.Add((int)reader["pid"]);
+                    list商品名稱.Add((string)reader["pname"]);
+                    list商品價格.Add((int)reader["price"]);
+                    list銷售模式.Add((string)reader["pmode"]);
+
+                    string image_name = (string)reader["pimage"];
+                    string 完整圖檔路徑 = Path.Combine(GlobalVar.image_dir, image_name);
+
+                    try
+                    {
+                        using (var fs = new FileStream(完整圖檔路徑, FileMode.Open, FileAccess.Read))
+                        {
+                            var img = Image.FromStream(fs);
+                            imageList.Images.Add(img);
+                        }
+                    }
+                    catch
+                    {
+                        // 如果指定的圖片加載失敗，則使用預設圖片
+                        if (File.Exists(預設圖片路徑))
+                        {
+                            using (var fs = new FileStream(預設圖片路徑, FileMode.Open, FileAccess.Read))
+                            {
+                                var img = Image.FromStream(fs);
+                                imageList.Images.Add(img); // 將預設圖片加入到ImageList中
+                            }
+                        }
+                        else
+                        {
+                            // 如果連預設圖片也不存在，可以在這裡處理錯誤或者加入一個空白圖片
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    // 更新ListView
+    for (int i = 0; i < listId.Count; i++)
+    {
+        ListViewItem item = new ListViewItem();
+        item.ImageIndex = i; // 圖片索引
+        item.Text = $"{list商品名稱[i]}   $價格 : {list商品價格[i]}元     *銷售模式:[{list銷售模式[i]}]";
+        item.Font = new Font("微軟正黑體", 14, FontStyle.Regular);
+        item.Tag = listId[i]; // 將商品ID存儲於Tag中
+        currentListView.Items.Add(item);
+    }
+}
+
+ 
+ private ListView 當前listview(string ptype)
+ {
+     switch (ptype)
+     {
+         case "商用料理配方":
+             return listView商用料理配方;
+         case "商用料理配料包":
+             return listView商用料理配料包;
+         case "廚藝顧問出租":
+             return listView廚藝顧問出租;
+         case "商用廚房設備規劃":
+             return listView商用廚房設備規劃;
+         case "技術轉移保證班":
+             return listView技術轉移保證班;
+         default:
+             return null;
+     }
+ }
+
+ private string 獲取排序語句(string 排序選項)
+ {
+     switch (排序選項)
+     {
+         case "價格低到高":
+             return "ORDER BY price ASC";
+         case "價格高到低":
+             return "ORDER BY price DESC";
+         case "姓名筆劃多到少":
+             return "ORDER BY pname DESC"; // 假設使用長度來近似筆劃數，具體實現可能需要調整
+         case "姓名筆劃少到多":
+             return "ORDER BY pname ASC";
+         default:
+             return "";
+     }
+ }

@@ -1,0 +1,440 @@
+在chefless資料庫:
+
+建立"persons"資料表
+
+不可null: int id primary key(1,1) 、 nvarchar50 email、nvarchar50 姓名、int 權限(預設值1000)、nvarchar50 密碼、nvarchar50 手機號碼
+
+
+建立"products"資料表
+
+不可null : int pid primary key(10,1)、nvarchar50 pname、int price、nvarchar500 pdesc、nvarchar100 pimage
+
+
+建立"orders"資料表
+不可null : int oid primary key(100,1)、date odate、int ototal、int ocustomerid 、int oproductid 、int ostatus
+
+建立"clerk"資料表:
+不可null: int cid primary key(1000,1)、int staffid、date checkin(年月日時分秒)、date checkout(年月日時分秒)
+
+
+建立"shandsale"資料表
+不可null : int ssid primary key(1,1)、nvarchar50 ssrigion、nvarchar50 ssnew、nvarchar50 sstradeway、nvarchar50 ssnego、nvarchar50 ssname、nvarchar50 sspname、int ssprice、nvarchar100 sscontact、nvarchar500 ssdesc、nvarchar50 sspimage
+
+
+
+建立"shandbuy"資料表
+不可null : int sbid primary key(1,1)、nvarchar50 sbrigion、nvarchar50 sbnew、nvarchar50 sbtradeway、nvarchar50 sbnego、nvarchar50 sbname、nvarchar50 sbpname、int sbprice、nvarchar100 sbcontact、nvarchar500 sbdesc
+
+建立"expertsale"資料表
+
+不可null : int esid primary key(1,1)、nvarchar50 esrigion、int esseniority、nvarchar50 esserviceway、nvarchar50 esname、nvarchar100 esskill、nvarchar100 escontact、nvarchar500 esdesc、nvarchar50 esimage
+
+
+建立"expertbuy"資料表
+
+不可null : int ebid primary key(1,1)、nvarchar50 ebrigion、int ebseniority、nvarchar50 ebserviceway、nvarchar50 ebname、nvarchar100 ebwant、int ebbudget、nvarchar100 ebcontact、nvarchar500 ebdesc
+
+建立"cart"資料表
+
+不可null : int cartid primary key(1,1)、int tobuyid、int tobutcount
+
+
+========================================================================================
+
+-- 建立 "persons" 資料表
+CREATE TABLE persons (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    email NVARCHAR(50) NOT NULL,
+    姓名 NVARCHAR(50) NOT NULL,
+    權限 INT NOT NULL DEFAULT 1000,
+    密碼 NVARCHAR(50) NOT NULL,
+    手機號碼 NVARCHAR(50) NOT NULL
+);
+
+-- 建立 "products" 資料表
+CREATE TABLE products (
+    pid INT PRIMARY KEY IDENTITY(10,1),
+    pname NVARCHAR(50) NOT NULL,
+    pmode NVARCHAR(50) NOT NULL,
+    price INT NOT NULL,
+    pdesc NVARCHAR(500) NOT NULL,
+    pimage NVARCHAR(100) 
+    ptype  NVARCHAR(50)
+);
+
+-- 建立 "orders" 資料表
+CREATE TABLE orders (
+    oid INT PRIMARY KEY IDENTITY(100,1),
+    odate DATE NOT NULL,
+    ototal INT NOT NULL,
+    ocustomerid INT NOT NULL,
+    oproductid INT NOT NULL,
+    ostatus INT NOT NULL
+);
+
+-- 由於 "clerk" 資料表的建立涉及到從 "persons" 資料表篩選資料，
+-- 這裡只提供建立空資料表的 SQL 語法。篩選和插入資料將需要另外的操作。
+CREATE TABLE clerk (
+    cid INT PRIMARY KEY IDENTITY(1000,1),
+    staffid INT NOT NULL,
+    checkin DATETIME NOT NULL,
+    checkout DATETIME NOT NULL
+);
+
+-- 建立 "shandsale" 資料表
+CREATE TABLE shandsale (
+    ssid INT PRIMARY KEY IDENTITY(1,1),
+    ssrigion NVARCHAR(50) NOT NULL,
+    ssnew NVARCHAR(50) NOT NULL,
+    sstradeway NVARCHAR(50) NOT NULL,
+    snego NVARCHAR(50) NOT NULL,
+    ssname NVARCHAR(50) NOT NULL,
+    sspname NVARCHAR(50) NOT NULL,
+    ssprice INT NOT NULL,
+    sscontact NVARCHAR(100) NOT NULL,
+    ssdesc NVARCHAR(500) NOT NULL,
+    sspimage NVARCHAR(50) NOT NULL
+);
+
+-- 建立 "shandbuy" 資料表
+CREATE TABLE shandbuy (
+    sbid INT PRIMARY KEY IDENTITY(1,1),
+    sbrigion NVARCHAR(50) NOT NULL,
+    sbnew NVARCHAR(50) NOT NULL,
+    sbtradeway NVARCHAR(50) NOT NULL,
+    sbnego NVARCHAR(50) NOT NULL,
+    sbname NVARCHAR(50) NOT NULL,
+    sbpname NVARCHAR(50) NOT NULL,
+    sbprice INT NOT NULL,
+    sbcontact NVARCHAR(100) NOT NULL,
+    sbdesc NVARCHAR(500) NOT NULL
+);
+
+-- 建立 "expertsale" 資料表
+CREATE TABLE expertsale (
+    esid INT PRIMARY KEY IDENTITY(1,1),
+    esrigion NVARCHAR(50) NOT NULL,
+    esseniority INT NOT NULL,
+    esserviceway NVARCHAR(50) NOT NULL,
+    esname NVARCHAR(50) NOT NULL,
+    esskill NVARCHAR(100) NOT NULL,
+    escontact NVARCHAR(100) NOT NULL,
+    esdesc NVARCHAR(500) NOT NULL,
+    esimage NVARCHAR(50) NOT NULL
+);
+
+-- 建立 "expertbuy" 資料表
+CREATE TABLE expertbuy (
+    ebid INT PRIMARY KEY IDENTITY(1,1),
+    ebrigion NVARCHAR(50) NOT NULL,
+    ebseniority INT NOT NULL,
+    ebserviceway NVARCHAR(50) NOT NULL,
+    ebname NVARCHAR(50) NOT NULL,
+    ebwant NVARCHAR(100) NOT NULL,
+    ebbudget INT NOT NULL,
+    ebcontact NVARCHAR(100) NOT NULL,
+    ebdesc NVARCHAR(500) NOT NULL
+);
+
+-- 建立 "cart" 資料表
+CREATE TABLE cart (
+    cartid INT PRIMARY KEY IDENTITY(1,1),
+    tobuyid INT NOT NULL,
+    tobutcount INT NOT NULL
+    userid int NOT NULL
+);
+
+
+1	1111@gmail.com	王洪文	1000	1111	1111
+2	2222@gmail.com	陳達祥	1000	2222	2222
+3	3333@gmail.com	陳昱瑋	1000	3333	3333
+4	4444@gmail.com	許正昀	100	4444	4444
+5	5555@gmail.com	陳韻竹	100	5555	5555
+6	6666@gmail.com	連宇喆	10	6666	6666
+8	7777@gmail.com	阿拉華瓜	9	7777	7777
+9	8888@gmail.com	王木白凱	1	8888	8888
+==============================================================
+
+
+products資料表，欄位新增值
+ 
+pname 四川藤椒清燉牛肉麵 
+pmode '材料品項' '材料品項、製作步驟' '材料品項、製作步驟、配方比例' 
+price 1. 2000 2. 12000 3. 50000 
+pdesc 按照pname生成50字簡介
+
+=======================
+
+以上是我插入資料表的格式，每種pname都會產生三筆資料
+'材料品項' 對應 1. 2000
+'材料品項、製作步驟' 對應 2. 12000
+'材料品項、製作步驟、配方比例'  對應  3. 50000
+pdesc 則按照我給你的pname由你幫我生成70字簡介
+
+幫我寫成SQL語法，現在的pname是 "  "
+
+簡介參考食譜，勿將所有材料品項都寫上，4成描述材料，6成描述做法""
+
+簡介元素 除了你自動生成以外，還需要''
+
+
+
+====================================================================
+
+在我的設定中 權限>=1000是客戶，1000 > 權限 >= 100是店員，100>權限>=10是店長   10>權限>=1 是老闆
+
+
+
+
+=================================================================================================
+
+
+pname	nvarchar(50)	pmode	nvarchar(50)	price	int	pdesc	nvarchar(500)	pimage	nvarchar(100)	ptype	nvarchar(50)
+
+這是products欄位
+
+
+pname依序加入這5筆
+
+品質改進諮詢 ( 線上 ) ,品質改進諮詢 ( 現場 ) , 食譜標準化代書 ( 線上 ), 食譜標準化代書 ( 現場DEMO ), 原料廠商代尋 ( 僅介紹 ), 原料廠商代尋 ( 介紹且協助議價  )
+
+
+
+======================================================================================================
+
+Form1裡面有個tabcontrol叫做Tabcontrol主選單，裡面有5個分頁，分別是商用料理配方、商用料理配料包、廚藝顧問出租、商用廚房設備規劃、技術轉移保證班
+
+======================================================================================================
+
+
+Form1裡面有個tabcontrol叫做Tabcontrol主選單，裡面有5個分頁，分別是商用料理配方、商用料理配料包、廚藝顧問出租、商用廚房設備規劃、技術轉移保證班，每個分頁都有各自的listView(名稱為listView分頁名稱)和imageList(名稱為imageList分頁名稱)，我在listView點擊產品資訊後，會顯示Form商品詳情，若我想要在Form商品詳情上建立上一頁，下一頁按鈕(按鈕事件都已建立)，該怎麼做?
+我怕比如說我在"商用料理配方"的頁面點擊某商品，顯示商品詳情後，按上一頁和下一頁的範圍，會限制在原本"商用料理配方"的範圍嗎?還是範圍會變成所有產品(這樣操作時不合邏輯)?
+
+
+
+
+=====================================================================
+
+我現在有三個資料表分別是products,orders,persons,clerk,cart
+我來說明他們之間的關係
+首先是欄位結構------------
+CREATE TABLE [dbo].[expertbuy](
+	[ebid] [int] IDENTITY(1,1) NOT NULL,
+	[ebrigion] [nvarchar](50) NOT NULL,
+	[ebseniority] [int] NOT NULL,
+	[ebserviceway] [nvarchar](50) NOT NULL,
+	[ebname] [nvarchar](50) NOT NULL,
+	[ebwant] [nvarchar](100) NOT NULL,
+	[ebbudget] [int] NOT NULL,
+	[ebcontact] [nvarchar](100) NOT NULL,
+	[ebdesc] [nvarchar](500) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ebid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[expertsale]    Script Date: 2024/2/3 下午 04:43:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[expertsale](
+	[esid] [int] IDENTITY(1,1) NOT NULL,
+	[esrigion] [nvarchar](50) NOT NULL,
+	[esseniority] [int] NOT NULL,
+	[esserviceway] [nvarchar](50) NOT NULL,
+	[esname] [nvarchar](50) NOT NULL,
+	[esskill] [nvarchar](100) NOT NULL,
+	[escontact] [nvarchar](100) NOT NULL,
+	[esdesc] [nvarchar](500) NOT NULL,
+	[esimage] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[esid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[orders]    Script Date: 2024/2/3 下午 04:43:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[orders](
+	[oid] [int] IDENTITY(100,1) NOT NULL,
+	[odate] [date] NOT NULL,
+	[ototal] [int] NOT NULL,
+	[ocustomerid] [int] NOT NULL,
+	[oproductid] [int] NOT NULL,
+	[oproductname][nvarchar] NOT NULL,
+	[ostatus] [nvarchar](50) NOT NULL,
+	
+
+PRIMARY KEY CLUSTERED 
+(
+	[oid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[persons]    Script Date: 2024/2/3 下午 04:43:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[persons](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[email] [nvarchar](50) NOT NULL,
+	[姓名] [nvarchar](50) NOT NULL,
+	[權限] [int] NOT NULL,
+	[密碼] [nvarchar](50) NOT NULL,
+	[手機號碼] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[products]    Script Date: 2024/2/3 下午 04:43:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[products](
+	[pid] [int] IDENTITY(10,1) NOT NULL,
+	[pname] [nvarchar](50) NOT NULL,
+	[pmode] [nvarchar](50) NOT NULL,
+	[price] [int] NOT NULL,
+	[pdesc] [nvarchar](500) NOT NULL,
+	[pimage] [nvarchar](100) NULL,
+	[ptype] [nvarchar](50) NULL,
+ CONSTRAINT [PK__products__DD37D91AA19C5817] PRIMARY KEY CLUSTERED 
+(
+	[pid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[shandbuy]    Script Date: 2024/2/3 下午 04:43:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[shandbuy](
+	[sbid] [int] IDENTITY(1,1) NOT NULL,
+	[sbrigion] [nvarchar](50) NOT NULL,
+	[sbnew] [nvarchar](50) NOT NULL,
+	[sbtradeway] [nvarchar](50) NOT NULL,
+	[sbnego] [nvarchar](50) NOT NULL,
+	[sbname] [nvarchar](50) NOT NULL,
+	[sbpname] [nvarchar](50) NOT NULL,
+	[sbprice] [int] NOT NULL,
+	[sbcontact] [nvarchar](100) NOT NULL,
+	[sbdesc] [nvarchar](500) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[sbid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[shandsale]    Script Date: 2024/2/3 下午 04:43:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[shandsale](
+	[ssid] [int] IDENTITY(1,1) NOT NULL,
+	[ssrigion] [nvarchar](50) NOT NULL,
+	[ssnew] [nvarchar](50) NOT NULL,
+	[sstradeway] [nvarchar](50) NOT NULL,
+	[snego] [nvarchar](50) NOT NULL,
+	[ssname] [nvarchar](50) NOT NULL,
+	[sspname] [nvarchar](50) NOT NULL,
+	[ssprice] [int] NOT NULL,
+	[sscontact] [nvarchar](100) NOT NULL,
+	[ssdesc] [nvarchar](500) NOT NULL,
+	[sspimage] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ssid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+以下是資料表間的關係,-----------
+
+persons資料表中，權限<1000的的就是員工，'
+將這些人的
+id在staff資料表存成staffid
+權限在staff資料表存成staff權限
+
+orders資料表中若一位顧客可能購買多筆商品我該怎麼設計在winform中listview輸出格式?
+比如說，同一位顧客購買3樣商品，其中odate代表訂單時間，3樣同時購買當然只需要顯示一次
+同理，ocustomerid代表下單的顧客id，從persons引用過來，ototal代表該筆訂單的總金額，ostatus代表出貨狀態，如未出貨、已出貨、已結單等等，所以在每一筆訂單資料中，真正不一樣的只有opruductid和oproductname，重複顯示其他一樣的資訊很奇怪
+
+
+===========================================================
+
+我需要實作以下功能，Form商品詳情裡面的 btn進階搜尋_確認搜尋按下後，會根據以下條件加入判斷
+
+txt進階搜尋_關鍵字 ，商品名稱pname須包含關鍵字
+
+txt進階搜尋_最小金額，商品金額price需大於輸入的最小金額
+
+txt進階搜尋_最大金額，商品金額price需小於輸入的最小金額
+
+
+=============================================================
+如果我想要在winform銷售系統裡面做一個購物車功能，使用者點選"加入購物車"時，會儲存該商品的id，和使用者選取的購買數量，然後在tabcontrol的其中一個分頁"購物車"中，有一個datagridview，會根據id和數量顯示商品，datagridview的欄位有1.checkbox 2.商品id 3.商品名稱 4.商品規格 5.商品價格 6.數量 7.小計
+1.checkbox來讓使用者多選購物車清單進行批量操作
+2.商品id來自products資料表的pid
+3.商品名稱來自products資料表的pname
+4.商品規格來自products資料表的pmode
+5.商品價格來自products資料表的price
+6.數量來自於使用者加入購物車時，顯示數量的對話框
+7.小計 = 該筆價格 x 數量
+
+請問我要將id和數量綁定在該登入帳號上
+我該將id和數量儲存在哪裡?新增資料表?
+
+
+
+
+訂單編號
+訂購人
+訂單狀態
+付款方式
+備註
+
+
+
+訂單編號
+商品編號
+商品名稱
+商品規格
+購買數量
+
+
+
+幫我修改，訂購人現在是讀取id，幫我改成根據這個id在persons資料表找出對應的姓名，
+比如 id 9   姓名 王柏凱
+那麼欄位[編號] = 9，欄位[訂購人]=王柏凱
+
+另外，由於備註允許的上限是500字，但是總不能把datagridview拉很長不美觀，你有沒有推薦甚麼辦法可以在不影響美觀的情況下，顯示500字備註
+我有幾個想法，你看可不可行
+1.另外建立textbox顯示備註
+2.滑鼠懸停顯示備註
+
+或有其他方式，請你推薦
+
+
+
+
+
+
+
+
+
+
+
+
+
+

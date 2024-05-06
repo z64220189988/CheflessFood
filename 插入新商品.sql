@@ -1,0 +1,4 @@
+INSERT [dbo].[products] ( [pname], [pmode], [price], [pdesc], [pimage], [ptype]) VALUES ( N'四', N'材料品項', 3000, N'愛！', N'四川藤椒清燉牛肉麵.png', N'商用料理配方')
+INSERT [dbo].[products] ( [pname], [pmode], [price], [pdesc], [pimage], [ptype]) VALUES ( N'四', N'材料品項、製作步驟', 12000, N'最愛！', N'四川藤椒清燉牛肉麵.png', N'商用料理配方')
+INSERT [dbo].[products] ( [pname], [pmode], [price], [pdesc], [pimage], [ptype]) VALUES ( N'四', N'材料品項、製作步驟、配方比例', 50000, N'最愛！', N'四川藤椒清燉牛肉麵.png', N'商用料理配方')
+INSERT [dbo].[products] ( [pname], [pmode], [price], [pdesc], [pimage], [ptype]) VALUES ( N'四', N'500g/份，100份/件', 8000, N'最愛！', N'四川藤椒清燉牛肉麵.png', N'商用料理配料包')
